@@ -14,6 +14,10 @@
                 <!-- testing link -->
                 <br>
                 <nuxt-link :to="localePath('login', $i18n.locale)">to login</nuxt-link>
+                <br>
+                <nuxt-link :to="localePath('vendor', $i18n.locale)">to vendor</nuxt-link>
+                <br>
+                <nuxt-link :to="localePath('admin', $i18n.locale)">to admin</nuxt-link>
             </div>
         </div>
     </section>

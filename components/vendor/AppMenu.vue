@@ -2,23 +2,20 @@
     <Menu class="menu" :active-name="currRoute" :open-names="['users', 'orders', 'applications', 'products']" theme="dark" width="auto">
         <!-- MENU TITLE -->
         <div class="menu-title">
-            <h2 @click="routerPush('/admin')">DALI CITY</h2>
+            <h2 @click="routerPush('/vendor')">DALI CITY</h2>
         </div>
         <!-- SUBMENU:USERS -->
         <Submenu name="users">
             <template slot="title">
                 <Icon type="person"></Icon>
-                {{$t('admin.accountManagement')}}
+                {{$t('vendor.accountManagement')}}
             </template>
             <!-- MENU ITEMS -->
-            <i-menuItem name="groupManagement" @click.native="routerPush('/admin/groupManagement')">
-                <span>{{$t('admin.groupManagement')}}</span>
+            <i-menuItem name="groupManagement" @click.native="routerPush('/vendor/groupManagement')">
+                <span>{{$t('vendor.groupManagement')}}</span>
             </i-menuItem>
-            <i-menuItem name="vendorManagement" @click.native="routerPush('/admin/vendorManagement')">
-                <span>{{$t('admin.vendorManagement')}}</span>
-            </i-menuItem>
-            <i-menuItem name="userManagement" @click.native="routerPush('/admin/userManagement')">
-                <span>{{$t('admin.userManagement')}}</span>
+            <i-menuItem name="userManagement" @click.native="routerPush('/vendor/userManagement')">
+                <span>{{$t('vendor.userManagement')}}</span>
             </i-menuItem>
         </Submenu>
     </Menu>
