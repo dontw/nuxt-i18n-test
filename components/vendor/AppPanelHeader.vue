@@ -32,8 +32,13 @@ export default {
     },
     methods: {
         onLogout() {
-            this.$store.dispatch('auth/logout')
-            this.$router.push('/login')
+            this.$store.dispatch('auth/logout').then(result => {
+                if (result.status > 299) {
+                    this.$Message.error(this.errCodeMsg(result.code))
+                } else {
+                    this.$router.push('/login')
+                }
+            })
         },
         toChangePwd() {
             this.$router.push('/admin/changePassword')
