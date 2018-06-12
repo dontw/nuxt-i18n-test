@@ -17,6 +17,7 @@ export const state = () => ({
     session: null, // String
     rsession: null, // String
     roleId: null, // Integer
+    loginStatus: 0 // Integer 0:未登录 1:登录中
 })
 
 //  ██████╗ ███████╗████████╗████████╗███████╗██████╗ ███████╗
@@ -26,7 +27,8 @@ export const state = () => ({
 // ╚██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║███████║
 //  ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝
 export const getters = {
-    isAuth(state) { // 确认是否有session
+    isAuth(state) {
+        // 确认是否有session
         return state.session != null
     }
 }
@@ -47,6 +49,9 @@ export const mutations = {
     setRoleId(state, id) {
         state.roleId = id
     },
+    setLoginState(state, val) {
+        state.loginStatus = val
+    },
     clearSession(state) {
         state.session = null
     },
@@ -55,9 +60,8 @@ export const mutations = {
     },
     clearRoleId(state) {
         state.roleId = null
-    },
+    }
 }
-
 
 //  █████╗  ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
 // ██╔══██╗██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
@@ -66,18 +70,17 @@ export const mutations = {
 // ██║  ██║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║███████║
 // ╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 export const actions = {
-    authUser({
-        commit
-    }, {
-        user,
-        pwd
-    }) {
+    // 登入验证
+    authUser({ commit }, { user, pwd }) {
+        commit('setLoginState', 1)
         return this.$axios
             .$post(
-                AUTH_API_URL + 'user/login', {
+                AUTH_API_URL + 'user/login',
+                {
                     user,
                     pwd: getEncrypt(pwd, API_PWD_KEY)
-                }, {
+                },
+                {
                     headers: {
                         'k-token': K_TOKEN,
                         'k-source': 0
@@ -85,11 +88,8 @@ export const actions = {
                 }
             )
             .then(result => {
-                let {
-                    session,
-                    rsession,
-                    roleid
-                } = result.data
+                let { session, rsession, roleid } = result.data
+                commit('setLoginState', 0)
                 //add sesssions to state
                 commit('setSession', session)
                 commit('setRsession', rsession)
@@ -104,6 +104,7 @@ export const actions = {
                 }
             })
             .catch(e => {
+                commit('setLoginState', 0)
                 return {
                     code: e.response.data,
                     status: e.response.status
@@ -111,10 +112,8 @@ export const actions = {
             })
     },
 
-    initAuth({
-        commit,
-        dispatch
-    }) {
+    // middleware 验证 cookie
+    initAuth({ commit, dispatch }) {
         let session = Cookie.get('session')
         let rsession = Cookie.get('rsession')
         //if there is no session & rsesson than logout and redirect to login page
@@ -127,9 +126,8 @@ export const actions = {
         }
     },
 
-    logout({
-        commit
-    }) {
+    //登出
+    logout({ commit }) {
         // get session and rsession from cookie
         let session = Cookie.get('session')
         let rsession = Cookie.get('rsession')
@@ -137,9 +135,11 @@ export const actions = {
         if (session && rsession) {
             return this.$axios
                 .$post(
-                    AUTH_API_URL + '/user/logout', {
+                    AUTH_API_URL + '/user/logout',
+                    {
                         rsession
-                    }, {
+                    },
+                    {
                         headers: {
                             'k-session': session
                         }

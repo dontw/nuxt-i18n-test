@@ -5,7 +5,8 @@ module.exports = {
      */
     head: {
         title: 'dali-backend',
-        meta: [{
+        meta: [
+            {
                 charset: 'utf-8'
             },
             {
@@ -18,42 +19,63 @@ module.exports = {
                 content: 'a Nuxt.js project for dali-platform'
             }
         ],
-        link: [{
-            rel: 'icon',
-            type: 'image/x-icon',
-            href: '/favicon.ico'
-        }]
+        link: [
+            {
+                rel: 'icon',
+                type: 'image/x-icon',
+                href: '/favicon.ico'
+            }
+        ]
     },
+    /*
+     ** Global CSS
+     */
+    css: [
+        {
+            src: '@assets/style/index.less',
+            lang: 'less'
+        }
+    ],
     /*
      ** Plugins
      */
-    plugins: [{
-        src: '@plugins/iview.js'
-    }],
+    plugins: [
+        {
+            src: '@plugins/iview.js'
+        },
+        {
+            src: '~plugins/qriously.js'
+        }
+    ],
     /*
      ** Nuxt Modules
      */
     modules: [
-        '@nuxtjs/axios', ['nuxt-i18n', {
-            // Options
-            strategy: 'prefix_except_default',
-            defaultLocale: 'cn',
-            locales: [{
-                    code: 'cn',
-                    file: 'cn.js',
-                    iso: 'zh-cn',
-                    name: '中文'
-                },
-                {
-                    code: 'en',
-                    file: 'en.js',
-                    iso: 'en-US',
-                    name: 'English'
-                }
-            ],
-            lazy: true,
-            langDir: './lang/'
-        }]
+        '@nuxtjs/axios',
+        [
+            'nuxt-i18n',
+            {
+                // Options
+                strategy: 'prefix_except_default',
+                defaultLocale: 'cn',
+                locales: [
+                    {
+                        code: 'cn',
+                        file: 'cn.js',
+                        iso: 'zh-cn',
+                        name: '中文'
+                    },
+                    {
+                        code: 'en',
+                        file: 'en.js',
+                        iso: 'en-US',
+                        name: 'English'
+                    }
+                ],
+                lazy: true,
+                langDir: './lang/'
+            }
+        ]
     ],
     /*
      ** Customize the progress bar color
@@ -73,7 +95,8 @@ module.exports = {
     env: {
         K_TOKEN: process.env.K_TOKEN || 'LeedianPlatformToken',
         API_PWD_KEY: process.env.API_PWD_KEY || '769E18DAFE373A2F8A17B415',
-        AUTH_API_URL: process.env.AUTH_API_URL || 'http://192.168.2.215:17000/api/v1/'
+        AUTH_API_URL:
+            process.env.AUTH_API_URL || 'http://192.168.2.215:17000/api/v1/'
     },
     /*
      ** Build configuration
@@ -82,10 +105,7 @@ module.exports = {
         /*
          ** Run ESLint on save
          */
-        extend(config, {
-            isDev,
-            isClient
-        }) {
+        extend(config, { isDev, isClient }) {
             if (isDev && isClient) {
                 config.module.rules.push({
                     enforce: 'pre',

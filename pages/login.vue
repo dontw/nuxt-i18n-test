@@ -15,7 +15,7 @@
                             <Icon class="icon" type="key" color="#CCCCCC" size="20"></Icon>
                         </span>
                     </i-input>
-                    <Button class="submit-btn" type="primary" size="large" html-type="submit" :disabled="disableStatus" long>{{$t('submit')}}</Button>
+                    <Button class="submit-btn" type="primary" size="large" html-type="submit" :loading="loginStatus=== 1" :disabled="disableStatus" long>{{$t('submit')}}</Button>
                 </form>
             </Card>
         </div>
@@ -44,6 +44,12 @@ export default {
             user: null,
             pwd: null,
             disableStatus: false
+        }
+    },
+
+    computed:{
+        loginStatus(){
+            return this.$store.state.auth.loginStatus
         }
     },
 
