@@ -1,6 +1,6 @@
 <template>
     <Menu class="menu" mode="horizontal" theme="light" width="auto" :active-name="routerName">
-        <h3>当前位置：{{$t(routerNameWithAdmin)}}</h3>
+        <h3>当前位置：{vendorName?}／{{$t(routerNameWithVendor)}}</h3>
         <Submenu class="submenu" name="setting">
             <template slot="title">
                 <Icon size="18" type="settings"></Icon>系统设置
@@ -16,9 +16,9 @@ export default {
         'i-menuItem': MenuItem
     },
     computed: {
-        routerNameWithAdmin() {
+        routerNameWithVendor() {
             return (
-                'admin.' +
+                'vendor.' +
                 this.$route.path.split('/')[
                     this.$route.path.split('/').length - 1
                 ]
@@ -33,8 +33,15 @@ export default {
     methods: {
         onLogout() {
             this.$store.dispatch('auth/logout').then(result => {
-                this.$router.push('/login')
+                if (result.status > 299) {
+                    this.$Message.error(this.errCodeMsg(result.code))
+                } else {
+                    this.$router.push('/login')
+                }
             })
+        },
+        toChangePwd() {
+            this.$router.push('/admin/changePassword')
         }
     }
 }
