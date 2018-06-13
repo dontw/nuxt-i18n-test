@@ -31,6 +31,7 @@ yarn start
 | K_TOKEN      | LeedianPlatformToken               | API TOKEN       |
 | API_PWD_KEY  | 769E18DAFE373A2F8A17B415           | 密码加密用      |
 | AUTH_API_URL | http://192.168.2.215:17000/api/v1/ | API 位置        |
+
 ## 專案架構說明
 架構說明
 ```
