@@ -94,7 +94,7 @@
                     </div>
                 </TabPane>
                 <!-- VENDOR INFO　TAB -->
-                <TabPane icon="ios-cart" label="厂商信息" name="vendor">
+                <TabPane icon="briefcase" label="厂商信息" name="vendor">
                     <div class="tab-content">
                         <div class="user-data-wrap">
                             <span class="user-data-title">企业名称：</span>
@@ -117,20 +117,20 @@
                         </div>
                         <div class="user-data-wrap">
                             <div class="images">
-                                <div class="image-wrap">
-                                    <img :src="userData.firm.licenseimg" alt="">
+                                <div class="image-wrap" @click="clickImg">
+                                    <img :src="userData.firm.licenseimg">
                                     <div>营业执照</div>
                                 </div>
-                                <div class="image-wrap">
-                                    <img :src="userData.firm.licenseimg" alt="">
+                                <div class="image-wrap" @click="clickImg">
+                                    <img :src="userData.firm.certificateimg">
                                     <div>组织机构代码证</div>
                                 </div>
-                                <div class="image-wrap">
-                                    <img :src="userData.firm.licenseimg" alt="">
+                                <div class="image-wrap" @click="clickImg">
+                                    <img :src="userData.firm.idfrontimg">
                                     <div>证件(正面)</div>
                                 </div>
-                                <div class="image-wrap">
-                                    <img :src="userData.firm.licenseimg" alt="">
+                                <div class="image-wrap" @click="clickImg">
+                                    <img :src="userData.firm.idbackimg">
                                     <div>证件(背面)</div>
                                 </div>
                             </div>
@@ -178,9 +178,9 @@ export default {
                     ceo: '预设运营者证件姓名',
                     ceoid: '预设运营者证件号',
                     licenseimg: 'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12224412/Shiba-Inu-On-White-01.jpg',
-                    certificateimg:'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12224412/Shiba-Inu-On-White-01.jpg',
-                    idfrontimg:'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12224412/Shiba-Inu-On-White-01.jpg',
-                    idbackimg:'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12224412/Shiba-Inu-On-White-01.jpg',
+                    certificateimg:'http://cdn.shibe.online/shibes/73d09d7ac7ed35507ab4a7ef12c1cd8dcff64ac2.jpg',
+                    idfrontimg:'http://cdn.shibe.online/shibes/9765ec732a4c7cbfcb60fe8a4a4083eb164499e7.jpg',
+                    idbackimg:'http://cdn.shibe.online/shibes/6ecb1a2e05d7c825b5fd7eff7f73cbd1f1f055cb.jpg',
                     status:1,
                 }
 
@@ -196,6 +196,7 @@ export default {
         }
     },
     computed: {
+        //弹窗开关状态
         modalStatus() {
             return true
         }
@@ -220,10 +221,14 @@ export default {
             this.saveAsImg(dataUrl, 'qrcode')
         },
         closeModal() {
-            // if (this.$store.state.userAll.modalStatus) {
-            //     this.$store.dispatch('userAll/setModalStatus', false)
-            // }
             console.log('close!')
+        },
+
+        clickImg(e){
+            if(e.target.src){
+                let win = window.open(e.target.src, '_blank');
+                win.focus()
+            }
         }
     }
 }
@@ -357,6 +362,7 @@ export default {
         position: relative;
         img {
             width: 100%;
+            height: 150px;
             border: 1px solid #ccc;
             cursor: pointer;
             display: block;
@@ -368,18 +374,18 @@ export default {
             img {
                 border: 1px solid red;
             }
-            :before {
-                cursor: pointer;
-                content: '点击放大';
-                display: block;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -40%);
-                color: white;
-                font-size: 1rem;
-                text-shadow: 1px 1px 2px black;
-            }
+            // :before {
+            //     cursor: pointer;
+            //     content: '点击看原图';
+            //     display: block;
+            //     position: absolute;
+            //     top: 50%;
+            //     left: 50%;
+            //     transform: translate(-50%, -40%);
+            //     color: white;
+            //     font-size: 1rem;
+            //     text-shadow: 1px 1px 2px black;
+            // }
         }
     }
 }
