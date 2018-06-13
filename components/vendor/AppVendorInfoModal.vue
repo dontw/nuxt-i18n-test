@@ -220,9 +220,10 @@ export default {
             this.saveAsImg(dataUrl, 'qrcode')
         },
         closeModal() {
-            if (this.$store.state.userAll.modalStatus) {
-                this.$store.dispatch('userAll/setModalStatus', false)
-            }
+            // if (this.$store.state.userAll.modalStatus) {
+            //     this.$store.dispatch('userAll/setModalStatus', false)
+            // }
+            console.log('close!')
         }
     }
 }
@@ -337,6 +338,7 @@ export default {
             color: white;
             font-size: 0.05rem;
             text-shadow: 1px 1px 2px black;
+            text-align: center;
         }
     }
 }

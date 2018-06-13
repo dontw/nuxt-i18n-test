@@ -80,7 +80,13 @@ export default {
                 }
             ]
         }
-    }
+    },
+
+    methods:{
+        changePage(){
+            console.log('change')
+        }
+    },
 }
 </script>
 <style lang="less" scoped>
