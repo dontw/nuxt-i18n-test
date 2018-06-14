@@ -1,5 +1,5 @@
 <template>
-    <Modal :value="modalStatus" :mask-closable="false" :closable="false" :styles="{top: '90px'}">
+    <Modal :value="modalStatus" :mask-closable="false" :closable="false" :styles="{top: '30px'}">
         <!-- MODAL HEADER -->
         <div slot="header">
             <Row :style="{padding:'15px'}" :gutter="16">
@@ -198,7 +198,7 @@ export default {
     computed: {
         //弹窗开关状态
         modalStatus() {
-            return true
+            return this.$store.state.vendor.vendorInfoStatus
         }
     },
     methods: {
@@ -221,7 +221,7 @@ export default {
             this.saveAsImg(dataUrl, 'qrcode')
         },
         closeModal() {
-            console.log('close!')
+            this.$store.commit('vendor/setVendorInfoStatus', false)
         },
 
         clickImg(e){

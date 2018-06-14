@@ -1,3 +1,7 @@
+//==============
+// 登录及权限验证
+//==============
+
 // import modules and functions
 import getEncrypt from '../tool/encrypt'
 import Cookie from 'js-cookie'

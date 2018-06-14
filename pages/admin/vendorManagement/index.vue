@@ -37,17 +37,20 @@
         <!-- PAGE -->
         <Page style="margin-top:15px" @on-change="changePage" :total="100" :page-size="15" show-elevator show-total></Page>
         <!-- MODAL -->
-        <!-- <VendorInfoModal/> -->
+        <VendorInfoModal/>
+        <ComInfoModal/>
     </div>
 </template>
 <script>
 import VendorInfoModal from '~/components/vendor/AppvendorInfoModal'
+import ComInfoModal from '~/components/vendor/AppComInfoModal'
 export default {
     layout: 'adminPanel',
-    components: {VendorInfoModal},
+    components: {VendorInfoModal,ComInfoModal},
     data() {
         return {
             firmStatus:null,
+            //列表格式
             userCol: [
                 {
                     type: 'index',
@@ -83,8 +86,8 @@ export default {
                 },
                 {
                     title:'审核状态',
-                    key: 'firmStatus',
-                    align: 'center'
+                    align: 'center',
+                    key: 'firmStatus'
                 },
                  {
                     title:'企业名称',
@@ -94,12 +97,27 @@ export default {
                 {
                     title:'审核',
                     key: 'firmStatus',
-                     width: 80,
-                    align: 'center'
+                    width: 100,
+                    align: 'center',
+                     render: (h, params) => {
+
+                        return h('div', [
+                            //审核链结
+                            h('a', {
+                                style: {
+                                    marginRight: '5px'
+                                },
+                                on:{
+                                    click: e=>{
+                                        this.$store.commit('vendor/setComInfoStatus', true)
+                                    }
+                                }
+                            },params.row.firmStatus)
+                        ])
+                    }
                 },
                  {
                     title:'操作',
-                    key: 'statusid',
                     align: 'center',
                     render: (h, params) => {
                         return h('div', [
@@ -114,7 +132,7 @@ export default {
                                 },
                                 on:{
                                     click: e => {
-                                        console.log('详情!')
+                                        this.$store.commit('vendor/setVendorInfoStatus',true)
                                     }
                                 }
                             },'详情'),
@@ -129,12 +147,13 @@ export default {
                                         console.log('停权!')
                                     }
                                 }
-                            },'取消停权')
+                            },'停权')
                         ])
                     }
                 },
             ],
 
+            // 列表資料原始格式
             rawListData:[{
                 userid:123,
                 name:'woo hoo hoo',
@@ -148,33 +167,44 @@ export default {
                 companies:{
                     name: 'Leedian Internatinal Corps'
                 }
-            }],
-
-            // currListData:[{
-            //     userid:123,
-            //     name:'woo hoo hoo',
-            //     nickname:'doge',
-            //     phone: '12345678912',
-            //     email: 'doge@mail.com',
-            //     statusid: 0, //启用/停用使用者 0: verify 1: active 2: suspend
-            //     firmStatus: 1,
-            //     companies:{
-            //         name: 'Leedian Internatinal Corps'
-            //     }
-            // }]
+            },{
+                userid:123,
+                name:'CHONG MONG',
+                nickname:'HRH CMH',
+                phone: '12345678912',
+                email: 'doge@mail.com',
+                statusid: 0, //启用/停用使用者 0: verify 1: active 2: suspend
+                firm:{
+                    status: 3//1: 审核成功 2: 审核失败 3: 审核中
+                },
+                companies:{
+                    name: 'Leedian Imperial Corps'
+                }
+            }]
         }
     },
 
     methods:{
         changePage(){
-            console.log(this.currListData)
-        }
+            console.log('change page!')
+        },
     },
 
     computed:{
+        //列表資料處理後格式
         currListData(){
             return this.rawListData.map(item => {
-                item.firmStatus = item.firm.status
+                if(item.firm.status === 1){
+                    item.firmStatus = '審核成功'
+                }
+
+                if(item.firm.status === 2){
+                    item.firmStatus = '審核失敗'
+                }
+
+                 if(item.firm.status === 3){
+                    item.firmStatus = '審核中'
+                }
                 item.companyName = item.companies.name
                 return item
             })
