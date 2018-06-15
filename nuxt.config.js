@@ -88,8 +88,9 @@ module.exports = {
      ** Middleware configuration
      */
     router: {
+        //如果要关闭权限验证把这里注解掉
         // middleware: ['routerBlocker']
-        // middleware: ['check-auth', 'auth']
+        middleware: ['check-auth', 'auth']
     },
 
     env: {
