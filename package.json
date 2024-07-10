@@ -14,7 +14,7 @@
     },
     "dependencies": {
         "@nuxtjs/axios": "^5.3.1",
-        "express": "^4.16.3",
+        "express": "^4.17.3",
         "iview": "^2.14.1",
         "js-cookie": "^2.2.0",
         "md5": "^2.2.1",
